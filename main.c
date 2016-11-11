@@ -18,12 +18,15 @@ int main(int argc, char const *argv[]) {
 
 
     do {
-      system("clear");
+
+        system("clear");
         printf("1  - Add product\n2  - Delete a product\n3  - Show all products\n99 - Exit\n-> ");
         scanf(" %d", &choice);
 
         switch (choice) {
             case 1:
+
+                system("clear");
 
                 printf("\nDigit the product code: ");
                 scanf(" %d", &code);
@@ -35,14 +38,18 @@ int main(int argc, char const *argv[]) {
             break;
             case 2:
 
-                printf("Digit the code of product to delete: ");
+                system("clear");
+
+                printf("\nDigit the code of product to delete: ");
                 scanf(" %d", &code);
 
                 del_product(products, &tam, code);
 
                 break;
             case 3:
+
                 system("clear");
+
                 if (tam == 0) {
                     printf("The list is empty.\n");
                 } else {
@@ -50,6 +57,7 @@ int main(int argc, char const *argv[]) {
                         printf("\nProduct code: %d\nProduct price: %f\n", products[i].code, products[i].price);
                     }
                 }
+                
                 printf("\n\nPress ENTER to go to menu...\n");
                 getchar();
                 getchar();
