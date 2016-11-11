@@ -19,34 +19,43 @@ int main(int argc, char const *argv[]) {
 
     do {
       system("clear");
-        printf("1 - Add product\n2 - Show all products\n3 - Exit\n-> ");
+        printf("1  - Add product\n2  - Delete a product\n3  - Show all products\n99 - Exit\n-> ");
         scanf(" %d", &choice);
 
         switch (choice) {
             case 1:
 
-            printf("Digit the product code: ");
-            scanf(" %d", &code);
-            printf("Digit the product price: ");
-            scanf(" %f", &price);
+                printf("\nDigit the product code: ");
+                scanf(" %d", &code);
+                printf("Digit the product price: ");
+                scanf(" %f", &price);
 
-            products = add_product(products, &tam, code, price);
+                products = add_product(products, &tam, code, price);
 
             break;
             case 2:
-            system("clear");
-            if (tam == 0) {
-                printf("The list is empty.\n");
-            } else {
-                for (i = 0; i < tam; i++) {
-                    printf("\nProduct code: %d\nProduct price: %f\n", products[i].code, products[i].price);
-                }
-            }
-            printf("\n\nPress ENTER to go to menu...\n");
-            getchar();
-            getchar();
-            break;
+
+                printf("Digit the code of product to delete: ");
+                scanf(" %d", &code);
+
+                del_product(products, &tam, code);
+
+                break;
             case 3:
+                system("clear");
+                if (tam == 0) {
+                    printf("The list is empty.\n");
+                } else {
+                    for (i = 0; i < tam; i++) {
+                        printf("\nProduct code: %d\nProduct price: %f\n", products[i].code, products[i].price);
+                    }
+                }
+                printf("\n\nPress ENTER to go to menu...\n");
+                getchar();
+                getchar();
+
+                break;
+            case 99:
                 control = 0;
             break;
         }

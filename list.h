@@ -33,22 +33,53 @@ struct Product{int code;float price;} * initialize_list(struct Product *p1, FILE
     return  p1;
 }
 
-struct Product * add_product(struct Product *products, int *size, int code, int price){
+struct Product * add_product(struct Product *p1, int *size, int code, int price){
 
     int i;
 
-    Product *newP = realloc(products, (*size+1) * sizeof(Product));
-    products = newP;
-
-    for (i = *size; i > 0; i--) {
-        products[i].code = products[i-1].code;
-        products[i].price = products[i-1].price;
+    for (i = 0; i < *size; i++) {
+        if (p1[i].code == code) {
+            fputs("\nAlready have a product with this code.\nPress enter to go to menu", stderr);
+            getchar();
+            getchar();
+            return p1;
+        }
     }
 
-    products[0].code = code;
-    products[0].price = price;
+    Product *newP = realloc(p1, (*size+1) * sizeof(Product));
+    p1 = newP;
+
+    for (i = *size; i > 0; i--) {
+        p1[i].code = p1[i-1].code;
+        p1[i].price = p1[i-1].price;
+    }
+
+    p1[0].code = code;
+    p1[0].price = price;
 
     *size = *size + 1;
 
-    return products;
+    return p1;
+}
+
+struct Product * del_product(struct Product *p1, int *size, int code){
+
+    int i;
+    int q;
+
+    for (i = 0; i < *size; i++) {
+        if (p1[i].code == code) {
+            for (q = i; q < *size; q++) {
+                p1[q].code = p1[q+1].code;
+                p1[q].price = p1[q+1].price;
+            }
+            i = *size;
+            *size = *size - 1;
+        }
+    }
+
+    Product *newP = realloc(p1, (*size) * sizeof(Product));
+    p1 = newP;
+
+    return p1;
 }
