@@ -40,7 +40,7 @@ struct Product * add_product(struct Product *p1, int *size, int code, int price)
     for (i = 0; i < *size; i++) {
         if (p1[i].code == code) {
             fputs("\nAlready have a product with this code.\nPress enter to go to menu", stderr);
-            getchar();
+            __fpurge(stdin);
             getchar();
             return p1;
         }
@@ -82,4 +82,23 @@ struct Product * del_product(struct Product *p1, int *size, int code){
     p1 = newP;
 
     return p1;
+}
+
+struct Product * search_product(struct Product *p1, int *size, int code){
+
+    int i;
+    int q;
+    Product *izi;
+
+    izi = malloc(sizeof(Product));
+
+    for (i = 0; i < *size; i++) {
+        if (p1[i].code == code) {
+            izi[0].code = p1[i].code;
+            izi[0].price = p1[i].price;
+            return izi;
+        }
+    }
+
+    return NULL;
 }
