@@ -5,12 +5,20 @@ struct inter {
     products *next;
 };
 
-products * initialyze(products *p1){
+products * initialyze(products *p1, FILE **fp){
+
+    *fp = fopen("products.dat", "r+b");
+
+    if(*fp == NULL)
+        *fp = fopen("products.dat", "w+b");
 
     p1 = malloc(sizeof(products));
-    p1->code = 0;
-    p1->price = 0;
-    p1->next = NULL;
+
+    //if((fread(p1, sizeof(products), 1, *fp)) == NULL){
+        p1->code = 0;
+        p1->price = 0;
+        p1->next = NULL;
+    //}
 
     return p1;
 }
@@ -33,4 +41,8 @@ void print_list (products *p1) {
     } else if (p1->code == 0 && p1->price == 0){
         print_list(p1->next);
     }
+}
+
+void save_to_file(products *p1, FILE **fp){
+    fwrite(p1, sizeof(products), 1, *fp);
 }
