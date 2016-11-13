@@ -27,6 +27,8 @@ void insert (int code, float price, products *p1){
 void print_list (products *p1) {
    if (p1 != NULL && p1->code != 0 && p1->price != 0){
         printf ("\nCode: %d\nPrice: %.2f\n", p1->code, p1->price);
+        if (p1->next == NULL)
+            return;
         print_list (p1->next);
     } else if (p1->code == 0 && p1->price == 0){
         print_list(p1->next);
