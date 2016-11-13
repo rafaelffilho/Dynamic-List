@@ -5,7 +5,33 @@ struct inter {
     products *next;
 };
 
+int tam;
+
+void read_file(products *p1, FILE **fp){
+
+    products *temp;
+    temp = malloc(sizeof(products));
+
+    tam = 0;
+
+    while (fread(temp, sizeof(products), 1, *fp) != NULL) {
+        tam++;
+    }
+
+    rewind(*fp);
+
+    for (int i = 0; i < tam; p1 = p1->next) {
+        fread(temp,sizeof(products), 1, *fp);
+        temp->next = p1->next;
+        p1->next = temp;
+        i++;
+    }
+    p1->next = NULL;
+}
+
 products * initialyze(products *p1, FILE **fp){
+
+    int tam = 0;
 
     *fp = fopen("products.dat", "r+b");
 
@@ -14,11 +40,11 @@ products * initialyze(products *p1, FILE **fp){
 
     p1 = malloc(sizeof(products));
 
-    //if((fread(p1, sizeof(products), 1, *fp)) == NULL){
-        p1->code = 0;
-        p1->price = 0;
-        p1->next = NULL;
-    //}
+    p1->code = 0;
+    p1->price = 0;
+    p1->next = NULL;
+
+    read_file(p1, fp);
 
     return p1;
 }
@@ -44,5 +70,9 @@ void print_list (products *p1) {
 }
 
 void save_to_file(products *p1, FILE **fp){
-    fwrite(p1, sizeof(products), 1, *fp);
+
+    for(int i = 0; i < tam-1; i++){
+        fwrite(p1, sizeof(products), 1, *fp);
+        p1 = p1->next;
+    }
 }
