@@ -5,9 +5,19 @@ struct inter {
     products *next;
 };
 
+products * initialyze(products *p1){
+
+    p1 = malloc(sizeof(products));
+    p1->code = 0;
+    p1->price = 0;
+    p1->next = NULL;
+
+    return p1;
+}
+
 void insert (int code, float price, products *p1){
    products *temp;
-   temp = malloc(sizeof (products));
+   temp = malloc(sizeof(products));
    temp->code = code;
    temp->price = price;
    temp->next = p1->next;
@@ -15,8 +25,10 @@ void insert (int code, float price, products *p1){
 }
 
 void print_list (products *p1) {
-   if (p1 != NULL) {
-      printf ("\nCode: %d\nPrice: %.2f\n", p1->code, p1->price);
-      print_list (p1->next);
-   }
+   if (p1 != NULL && p1->code != 0 && p1->price != 0){
+        printf ("\nCode: %d\nPrice: %.2f\n", p1->code, p1->price);
+        print_list (p1->next);
+    } else if (p1->code == 0 && p1->price == 0){
+        print_list(p1->next);
+    }
 }

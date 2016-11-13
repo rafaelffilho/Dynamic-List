@@ -9,8 +9,7 @@ int main(int argc, char const *argv[]) {
     int code;
     float price;
 
-    p1 = malloc(sizeof(products));
-    p1->next = NULL;
+    p1 = initialyze(p1);
 
     printf("Type the code: ");
     scanf(" %d", &code);
@@ -18,7 +17,6 @@ int main(int argc, char const *argv[]) {
     scanf(" %f", &price);
 
     insert(code, price, p1);
-
 
     printf("Type the code: ");
     scanf(" %d", &code);
