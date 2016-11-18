@@ -2,7 +2,7 @@
     * Lista Dinamicamente Encadeada
 
     * Arquivo: main_functions.h
-    * Descriï¿½ï¿½o: Biblioteca com as funï¿½ï¿½es do programa
+    * Descrição: Biblioteca com as funções do programa
 
     * Codigo por:
 
@@ -10,8 +10,8 @@
     * Matheus Nava
     * Rafael F. Filho
 
-    * Algoritmos e Programaï¿½ï¿½o II, Rafael Ballotin
-    * Engenharia de Computaï¿½ï¿½o, 2016
+    * Algoritmos e Programação II, Rafael Ballotin
+    * Engenharia de Computação, 2016
 */
 
 typedef struct prods {
@@ -20,12 +20,12 @@ typedef struct prods {
     struct prods *next_position;
 } Products;
 
-//Inicia a lista, jï¿½ declara a proxima posiï¿½ï¿½o como NULL
+//Inicia a lista, já declara a proxima posição como NULL
 void initialize (Products *products_list) {
     products_list->next_position = NULL;
 }
 
-//Verificar se a lista estï¿½ vazia ou nï¿½o
+//Verificar se a lista está vazia ou não
 int empty_list (Products *products_list) {
     if (products_list->next_position == NULL) {
         return 1;
@@ -34,7 +34,19 @@ int empty_list (Products *products_list) {
     }
 }
 
-//Inserir o item jï¿½ no comeï¿½o da lista
+int check_list (int code, Products *products_list) {
+    if (!empty_list(products_list)) {
+        while (products_list->next_position != NULL) {
+            if (code == products_list->code) {
+                return 1;
+            }
+            products_list = products_list->next_position;
+        }
+    }
+    return 0;
+}
+
+//Inserir o item já no começo da lista
 void insert_item (Products *products_list) {
     Products *new_product = (Products *) malloc(sizeof(Products));
 
@@ -43,9 +55,13 @@ void insert_item (Products *products_list) {
     printf("Preco do produto: ");
     scanf(" %f", &new_product->price);
 
-    Products *last_product = products_list->next_position;
-    products_list->next_position = new_product;
-    new_product->next_position = last_product;
+    if (check_list(new_product->code, products_list)) {
+        Products *last_product = products_list->next_position;
+        products_list->next_position = new_product;
+        new_product->next_position = last_product;
+    } else {
+        printf("Codigo ja existente\n");
+    }
 }
 
 void show_itens (Products *products_list) {
@@ -62,14 +78,14 @@ void show_itens (Products *products_list) {
     }
 }
 
-//Liberar o espaï¿½o na memoria
+//Liberar o espaço na memoria
 void clean_space (Products *products_list) {
-    if (!empty_list(products_list)) { //Se a lista nï¿½o estiver vazia
+    if (!empty_list(products_list)) { //Se a lista não estiver vazia
         Products *next, *current;
 
-        current = products_list->next_position; //Pega a posiï¿½ï¿½o atual de memoria
+        current = products_list->next_position; //Pega a posição atual de memoria
 
-        while (current != NULL) { //Enquanto nï¿½o chegar na ultima posiï¿½ï¿½o
+        while (current != NULL) { //Enquanto não chegar na ultima posição
             next = current->next_position;
             free(current);
             current = next;
@@ -95,8 +111,8 @@ void save_itens (Products *products_list) {
     fclose(fp);
 }
 
-//Na hora de fazer a inserï¿½ï¿½o do arquivo para o programa, ele vai fazer uma
-//adiï¿½ï¿½o no final da lista, e nï¿½o no inicio
+//Na hora de fazer a inserção do arquivo para o programa, ele vai fazer uma
+//adição no final da lista, e não no inicio
 void insert_item_from_stream (Products *products_list, Products *temp) {
     Products *new_product = (Products *) malloc(sizeof(Products));
     new_product->code = temp->code;
@@ -117,8 +133,6 @@ void insert_item_from_stream (Products *products_list, Products *temp) {
 }
 
 void load_itens (Products *products_list) {
-    int code;
-    float price;
     //FILE *fp = fopen("database.txt", "r+");
     FILE *fp = fopen("products.dat", "r+b");
     rewind(fp);
@@ -130,4 +144,26 @@ void load_itens (Products *products_list) {
     }
 
     fclose(fp);
+}
+
+Products * search_list (int search_code, Products *products_list) {
+    Products *s = products_list;
+    while (s != NULL && s->code != search_code) {
+        s = s->next_position;
+    }
+    return s;
+}
+
+void remove_item (int x, Products *products_list) {
+    Products *rafael, *ballotin;
+    rafael = products_list;
+    ballotin = products_list->next_position;
+    while (ballotin != NULL && ballotin->code != x) {
+          rafael = ballotin;
+          ballotin = ballotin->next_position;
+    }
+    if (ballotin != NULL) {
+          rafael->next_position = ballotin->next_position;
+          free(ballotin);
+    }
 }
