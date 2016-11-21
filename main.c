@@ -16,7 +16,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "main_functions.h"
+#include "list.h"
 
 int main () {
 
@@ -24,40 +24,57 @@ int main () {
     initialize(products_list);
     load_itens(products_list);
 
-    int control = 1, choice, x;
+    int code, choice, x;
+    float price;
 
     do {
-        printf("4 - Remover um item\n3 - Procurar produto\n2 - Adicionar produto\n1 - Listar items\n0 - Sair\n-> ");
+        system("clear");
+        printf(" 1 - SHOW LIST\n 2 - ADD PRODUCT\n 3 - SEARCH PRODUCT\n 4 - REMOVE PRODUCT\n 0 - EXIT \n-->");
         scanf(" %d", &choice);
 
         switch (choice) {
             case 4:
-                printf("Codigo a remover: ");
+                printf("\nCodigo a remover: ");
                 scanf(" %d", &x);
-                //Products *r = search_list(x, products_list);
                 remove_item(x, products_list);
             break;
 
             case 3:
-                printf("Codigo a procurar: ");
+                printf("\n\nCodigo a procurar: ");
                 scanf(" %d", &x);
-                Products *s = search_list(x, products_list);
-                printf("\nCodigo: %d\nPreco: %.2f\n", s->code, s->price);
+                Products *s = malloc(sizeof(Products));
+                if(search_list(x, s, products_list)){
+                    printf("\nCodigo: %d\nPreco: %.2f\n\n", s->code, s->price);
+                }else{
+                    printf("Produto nao encontrado\n\n");
+                }
+                free(s);
+                __fpurge(stdin);
+                getchar();
             break;
 
             case 2:
-                insert_item(products_list);
+                printf("\nCodigo do produto: ");
+                scanf(" %d", &code);
+                printf("\nPreco do produto: ");
+                scanf(" %f", &price);
+                insert_item(code, price, products_list);
             break;
 
             case 1:
                 show_itens(products_list);
+                __fpurge(stdin);
+                getchar();
             break;
 
             case 0:
                 save_itens(products_list);
                 clean_space(products_list);
-                control = 0;
             break;
         }
-    } while (control);
+    } while (choice);
+
+    free(products_list);
+    return 0;
 }
+

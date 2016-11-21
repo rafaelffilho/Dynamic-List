@@ -34,26 +34,23 @@ int empty_list (Products *products_list) {
     }
 }
 
+//função recursiva para verificar se o código ja existe
 int check_list (int code, Products *products_list) {
-    if (!empty_list(products_list)) {
-        while (products_list->next_position != NULL) {
-            if (code == products_list->code) {
-                return 1;
-            }
-            products_list = products_list->next_position;
-        }
+    if(code == products_list->code){
+        return 0;
+    }else if(products_list->next_position == NULL){
+        return 1;
+    }else{
+        check_list(code, products_list->next_position);
     }
-    return 0;
 }
 
 //Inserir o item já no começo da lista
-void insert_item (Products *products_list) {
+void insert_item (int code, float price, Products *products_list) {
     Products *new_product = (Products *) malloc(sizeof(Products));
 
-    printf("Codigo do produto: ");
-    scanf(" %d", &new_product->code);
-    printf("Preco do produto: ");
-    scanf(" %f", &new_product->price);
+    new_product->code = code;
+    new_product->price = price;
 
     if (check_list(new_product->code, products_list)) {
         Products *last_product = products_list->next_position;
@@ -61,13 +58,16 @@ void insert_item (Products *products_list) {
         new_product->next_position = last_product;
     } else {
         printf("Codigo ja existente\n");
+        //system("\npause");
+		__fpurge(stdin);
+		getchar();
     }
 }
 
 void show_itens (Products *products_list) {
     if (empty_list(products_list)) {
         printf("\n\nA lista esta atualmente vazia.\n\n");
-        return 0;
+        return ;
     }
 
     Products *tmp = products_list->next_position;
@@ -95,10 +95,12 @@ void clean_space (Products *products_list) {
 
 void save_itens (Products *products_list) {
     //FILE *fp = fopen("database.txt", "r+");
-    FILE *fp = fopen("products.dat", "r+b");
+    FILE *fp = fopen("products.dat", "w+b");
 
-    if(fp == NULL)
-        fp = fopen("products.dat", "w+b");
+    //if(fp == NULL)
+      //  fp = fopen("products.dat", "w+b");
+
+    //rewind(fp);
 
     Products *tmp = products_list->next_position;
 
@@ -133,8 +135,8 @@ void insert_item_from_stream (Products *products_list, Products *temp) {
 }
 
 void load_itens (Products *products_list) {
-    //FILE *fp = fopen("database.txt", "r+");
     FILE *fp = fopen("products.dat", "r+b");
+
     rewind(fp);
 
     Products *temp = malloc(sizeof(Products));
@@ -143,27 +145,33 @@ void load_itens (Products *products_list) {
         insert_item_from_stream(products_list, temp);
     }
 
+    free(temp);
     fclose(fp);
 }
 
-Products * search_list (int search_code, Products *products_list) {
-    Products *s = products_list;
-    while (s != NULL && s->code != search_code) {
-        s = s->next_position;
+//função recursiva para procurar o produto (não da erro quando não acha) ps: chupa adolpho
+int search_list (int search_code, Products *s, Products *products_list) {
+    if(search_code == products_list->code){
+        s->code = products_list->code;
+        s->price = products_list->price;
+        return 1;
+    }else if(products_list->next_position == NULL){
+        return 0;
+    }else{
+        search_list(search_code, s, products_list->next_position);
     }
-    return s;
 }
 
 void remove_item (int x, Products *products_list) {
-    Products *rafael, *ballotin;
-    rafael = products_list;
-    ballotin = products_list->next_position;
-    while (ballotin != NULL && ballotin->code != x) {
-          rafael = ballotin;
-          ballotin = ballotin->next_position;
+    Products *trash, *trashProx;
+    trash = products_list;
+    trashProx = products_list->next_position;
+    while (trashProx != NULL && trashProx->code != x) {
+          trash = trashProx;
+          trashProx = trashProx->next_position;
     }
-    if (ballotin != NULL) {
-          rafael->next_position = ballotin->next_position;
-          free(ballotin);
+    if (trashProx != NULL) {
+          trash->next_position = trashProx->next_position;
+          free(trashProx);
     }
 }
