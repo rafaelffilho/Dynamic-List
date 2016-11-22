@@ -2,7 +2,7 @@
     * Lista Dinamicamente Encadeada
 
     * Arquivo: main_functions.h
-    * Descrição: Biblioteca com as funções do programa
+    * Descriï¿½ï¿½o: Biblioteca com as funï¿½ï¿½es do programa
 
     * Codigo por:
 
@@ -10,22 +10,18 @@
     * Matheus Nava
     * Rafael F. Filho
 
-    * Algoritmos e Programação II, Rafael Ballotin
-    * Engenharia de Computação, 2016
+    * Algoritmos e Programaï¿½ï¿½o II, Rafael Ballotin
+    * Engenharia de Computaï¿½ï¿½o, 2016
 */
 
-typedef struct prods {
-    int code;
-    float price;
-    struct prods *next_position;
-} Products;
+#include "struct.h"
 
-//Inicia a lista, já declara a proxima posição como NULL
+//Inicia a lista, jï¿½ declara a proxima posiï¿½ï¿½o como NULL
 void initialize (Products *products_list) {
     products_list->next_position = NULL;
 }
 
-//Verificar se a lista está vazia ou não
+//Verificar se a lista estï¿½ vazia ou nï¿½o
 int empty_list (Products *products_list) {
     if (products_list->next_position == NULL) {
         return 1;
@@ -34,7 +30,7 @@ int empty_list (Products *products_list) {
     }
 }
 
-//função recursiva para verificar se o código ja existe
+//funï¿½ï¿½o recursiva para verificar se o cï¿½digo ja existe
 int check_list (int code, Products *products_list) {
     if(code == products_list->code){
         return 0;
@@ -45,7 +41,7 @@ int check_list (int code, Products *products_list) {
     }
 }
 
-//Inserir o item já no começo da lista
+//Inserir o item jï¿½ no comeï¿½o da lista
 void insert_item (int code, float price, Products *products_list) {
     Products *new_product = (Products *) malloc(sizeof(Products));
 
@@ -64,28 +60,14 @@ void insert_item (int code, float price, Products *products_list) {
     }
 }
 
-void show_itens (Products *products_list) {
-    if (empty_list(products_list)) {
-        printf("\n\nA lista esta atualmente vazia.\n\n");
-        return ;
-    }
-
-    Products *tmp = products_list->next_position;
-
-    while (tmp != NULL) {
-        printf("\nCodigo: %d\nPreco: %.2f\n", tmp->code, tmp->price);
-        tmp = tmp->next_position;
-    }
-}
-
-//Liberar o espaço na memoria
+//Liberar o espaï¿½o na memoria
 void clean_space (Products *products_list) {
-    if (!empty_list(products_list)) { //Se a lista não estiver vazia
+    if (!empty_list(products_list)) { //Se a lista nï¿½o estiver vazia
         Products *next, *current;
 
-        current = products_list->next_position; //Pega a posição atual de memoria
+        current = products_list->next_position; //Pega a posiï¿½ï¿½o atual de memoria
 
-        while (current != NULL) { //Enquanto não chegar na ultima posição
+        while (current != NULL) { //Enquanto nï¿½o chegar na ultima posiï¿½ï¿½o
             next = current->next_position;
             free(current);
             current = next;
@@ -113,8 +95,8 @@ void save_itens (Products *products_list) {
     fclose(fp);
 }
 
-//Na hora de fazer a inserção do arquivo para o programa, ele vai fazer uma
-//adição no final da lista, e não no inicio
+//Na hora de fazer a inserï¿½ï¿½o do arquivo para o programa, ele vai fazer uma
+//adiï¿½ï¿½o no final da lista, e nï¿½o no inicio
 void insert_item_from_stream (Products *products_list, Products *temp) {
     Products *new_product = (Products *) malloc(sizeof(Products));
     new_product->code = temp->code;
@@ -149,7 +131,7 @@ void load_itens (Products *products_list) {
     fclose(fp);
 }
 
-//função recursiva para procurar o produto (não da erro quando não acha) ps: chupa adolpho
+//funï¿½ï¿½o recursiva para procurar o produto (nï¿½o da erro quando nï¿½o acha) ps: chupa adolpho
 int search_list (int search_code, Products *s, Products *products_list) {
     if(search_code == products_list->code){
         s->code = products_list->code;
