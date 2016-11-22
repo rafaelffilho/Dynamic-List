@@ -29,7 +29,7 @@ int main () {
     float price;
 
     while (main_menu(products_list) != NULL);
-
+    //
     // do {
     //     system("clear");
     //     printf(" 1 - SHOW LIST\n 2 - ADD PRODUCT\n 3 - SEARCH PRODUCT\n 4 - REMOVE PRODUCT\n 0 - EXIT \n\n --> ");
@@ -57,9 +57,9 @@ int main () {
     //         break;
     //
     //         case 2:
-    //             printf("\nCodigo do produto: 999");
+    //             printf("\nCodigo do produto: ");
     //             scanf(" %d", &code);
-    //             printf("\nPreco do produto: 999");
+    //             printf("\nPreco do produto: ");
     //             scanf(" %f", &price);
     //             insert_item(code, price, products_list);
     //         break;
@@ -71,8 +71,7 @@ int main () {
     //         break;
     //
     //         case 0:
-    //             save_itens(products_list);
-    //             clean_space(products_list);
+    //
     //         break;
     //     }
     // } while (choice);

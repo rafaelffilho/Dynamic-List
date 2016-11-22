@@ -42,21 +42,20 @@ int check_list (int code, Products *products_list) {
 }
 
 //Inserir o item j� no come�o da lista
-void insert_item (int code, float price, Products *products_list) {
+int insert_item (int *code, float *price, Products *products_list) {
     Products *new_product = (Products *) malloc(sizeof(Products));
 
-    new_product->code = code;
-    new_product->price = price;
+    mvprintw(6, 1, "Preco do produto: %f", *price);
+
+    new_product->code = *code;
+    new_product->price = *price;
 
     if (check_list(new_product->code, products_list)) {
         Products *last_product = products_list->next_position;
         products_list->next_position = new_product;
         new_product->next_position = last_product;
     } else {
-        printf("Codigo ja existente\n");
-        //system("\npause");
-		__fpurge(stdin);
-		getchar();
+        return NULL;
     }
 }
 
