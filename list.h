@@ -45,8 +45,6 @@ int check_list (int code, Products *products_list) {
 int insert_item (int *code, float *price, Products *products_list) {
     Products *new_product = (Products *) malloc(sizeof(Products));
 
-    mvprintw(6, 1, "Preco do produto: %f", *price);
-
     new_product->code = *code;
     new_product->price = *price;
 

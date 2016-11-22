@@ -22,7 +22,7 @@ void draw_list(Products *products_list) {
             break;
         temp = temp->next_position;
     }
-    if (temp->next_position == NULL) {
+    if (temp->next_position != NULL) {
         for (int i = 0; i < LINES - 2; i += 3) {
             mvprintw(i, COLS - 22, "Product code: %d", temp->code);
             mvprintw(i + 1, COLS - 22, "Product price: %.2f", temp->price);
@@ -137,8 +137,6 @@ void add_menu(Products *products_list){
     mvprintw(3, 1, "Preco do produto: ");
     __fpurge(stdin);
     scanw(" %f", &price);
-
-    mvprintw(4, 1, "Preco do produto: %f", price);
 
     if(insert_item (&code, &price, products_list) == NULL){
         mvprintw(5, 1, "*Codigo ja existente*");
