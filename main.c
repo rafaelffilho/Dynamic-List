@@ -29,7 +29,7 @@ int main () {
 
     do {
         system("clear");
-        printf(" 1 - SHOW LIST\n 2 - ADD PRODUCT\n 3 - SEARCH PRODUCT\n 4 - REMOVE PRODUCT\n 0 - EXIT \n-->");
+        printf(" 1 - SHOW LIST\n 2 - ADD PRODUCT\n 3 - SEARCH PRODUCT\n 4 - REMOVE PRODUCT\n 0 - EXIT \n\n --> ");
         scanf(" %d", &choice);
 
         switch (choice) {
