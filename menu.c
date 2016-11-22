@@ -186,7 +186,7 @@ void search_menu(Products *products_list){
         mvprintw(4, 1, "Codigo: %d", s->code);
         mvprintw(5, 1, "Preco: %.2f", s->price);
     }else{
-        printf("Produto nao encontrado\n\n");
+        mvprintw(4, 1, "*Codigo nao encontrado*");
     }
     free(s);
     __fpurge(stdin);
