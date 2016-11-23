@@ -33,6 +33,84 @@ void draw_list(Products *products_list) {
     }
 }
 
+void draw_main_menu(MENU *menu, Products *products_list, int *curr){
+    clear();
+    post_menu(menu);
+    draw_list(products_list);
+    refresh();
+    menu_driver(menu, REQ_FIRST_ITEM);
+    *curr = 0;
+}
+
+void add_menu(Products *products_list){
+
+    int code;
+    float price;
+
+    draw_list(products_list);
+
+    mvprintw(1, 1, "Codigo a adicionar: ");
+    __fpurge(stdin);
+    scanw(" %d", &code);
+    mvprintw(3, 1, "Preco do produto: ");
+    __fpurge(stdin);
+    scanw(" %f", &price);
+
+    if(insert_item (&code, &price, products_list) == NULL){
+        mvprintw(5, 1, "*Codigo ja existente*");
+        __fpurge(stdin);
+        getch();
+        return;
+    }
+
+    mvprintw(5, 1, "*Produto adicionado*");
+
+    __fpurge(stdin);
+    getch();
+}
+
+void remove_menu(Products *products_list){
+
+    int code;
+
+    draw_list(products_list);
+
+    mvprintw(1, 1, "Codigo a remover: ");
+    scanw(" %d", &code);
+    remove_item(code, products_list);
+
+    mvprintw(5, 1, "*Produto removido*");
+
+    __fpurge(stdin);
+    getch();
+}
+
+void search_menu(Products *products_list){
+
+    int code;
+
+    draw_list(products_list);
+
+    mvprintw(1, 1, "Codigo a procurar: ");
+    __fpurge(stdin);
+    //move(row,col);
+    scanw(" %d", &code);
+    //getstr(str);
+    //x = atoi(str);
+    Products *s = malloc(sizeof(Products));
+    //refresh();
+    if(search_list(code, s, products_list)){
+        //printf("\nCódigo: %d\nPreço: %.2f\n\n", s->code, s->price);
+        mvprintw(4, 1, "Codigo: %d", s->code);
+        mvprintw(5, 1, "Preco: %.2f", s->price);
+    }else{
+        mvprintw(4, 1, "*Codigo nao encontrado*");
+    }
+    free(s);
+    __fpurge(stdin);
+    getch();
+}
+
 int main_menu(Products *products_list){
 
     ITEM **items;
@@ -113,82 +191,4 @@ int main_menu(Products *products_list){
     free_item(items[1]);
     free_menu(menu);
     endwin();
-}
-
-void draw_main_menu(MENU *menu, Products *products_list, int *curr){
-    clear();
-    post_menu(menu);
-    draw_list(products_list);
-    refresh();
-    menu_driver(menu, REQ_FIRST_ITEM);
-    *curr = 0;
-}
-
-void add_menu(Products *products_list){
-
-    int code;
-    float price;
-
-    draw_list(products_list);
-
-    mvprintw(1, 1, "Codigo a adicionar: ");
-    __fpurge(stdin);
-    scanw(" %d", &code);
-    mvprintw(3, 1, "Preco do produto: ");
-    __fpurge(stdin);
-    scanw(" %f", &price);
-
-    if(insert_item (&code, &price, products_list) == NULL){
-        mvprintw(5, 1, "*Codigo ja existente*");
-        __fpurge(stdin);
-        getch();
-        return;
-    }
-
-    mvprintw(5, 1, "*Produto adicionado*");
-
-    __fpurge(stdin);
-    getch();
-}
-
-void remove_menu(Products *products_list){
-
-    int code;
-
-    draw_list(products_list);
-
-    mvprintw(1, 1, "Codigo a remover: ");
-    scanw(" %d", &code);
-    remove_item(code, products_list);
-
-    mvprintw(5, 1, "*Produto removido*");
-
-    __fpurge(stdin);
-    getch();
-}
-
-void search_menu(Products *products_list){
-
-    int code;
-
-    draw_list(products_list);
-
-    mvprintw(1, 1, "Codigo a procurar: ");
-    __fpurge(stdin);
-    //move(row,col);
-    scanw(" %d", &code);
-    //getstr(str);
-    //x = atoi(str);
-    Products *s = malloc(sizeof(Products));
-    //refresh();
-    if(search_list(code, s, products_list)){
-        //printf("\nCódigo: %d\nPreço: %.2f\n\n", s->code, s->price);
-        mvprintw(4, 1, "Codigo: %d", s->code);
-        mvprintw(5, 1, "Preco: %.2f", s->price);
-    }else{
-        mvprintw(4, 1, "*Codigo nao encontrado*");
-    }
-    free(s);
-    __fpurge(stdin);
-    getch();
 }

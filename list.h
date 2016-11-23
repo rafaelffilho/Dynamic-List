@@ -116,6 +116,9 @@ void insert_item_from_stream (Products *products_list, Products *temp) {
 void load_itens (Products *products_list) {
     FILE *fp = fopen("products.dat", "r+b");
 
+    if (fp == NULL)
+        fp = fopen("products.dat", "w+b");
+
     rewind(fp);
 
     Products *temp = malloc(sizeof(Products));
