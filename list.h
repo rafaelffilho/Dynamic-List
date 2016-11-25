@@ -144,16 +144,23 @@ int search_list (int search_code, Products *s, Products *products_list) {
     }
 }
 
-void remove_item (int x, Products *products_list) {
-    Products *trash, *trashNext;
-    trash = products_list;
-    trashNext = products_list->next_position;
-    while (trashNext != NULL && trashNext->code != x) {
-          trash = trashNext;
-          trashNext = trashNext->next_position;
-    }
-    if (trashNext != NULL) {
-          trash->next_position = trashNext->next_position;
-          free(trashNext);
+int remove_item (int x, Products *products_list) {
+    Products *trash;
+    Products *trashNext;
+    Products *tmp = malloc(sizeof(Products));
+    if (search_list(x, tmp, products_list)) {
+        trash = products_list;
+        trashNext = products_list->next_position;
+        while (trashNext != NULL && trashNext->code != x) {
+              trash = trashNext;
+              trashNext = trashNext->next_position;
+        }
+        if (trashNext != NULL) {
+              trash->next_position = trashNext->next_position;
+              free(trashNext);
+        }
+        return 1;
+    } else {
+        return 0;
     }
 }

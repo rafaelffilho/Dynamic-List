@@ -342,7 +342,7 @@ int main_menu(Products *products_list){
 void draw_list(Products *products_list) {
 
     if (empty_list(products_list)) {
-        printf("\n\nEmpty list.\n\n");
+        mvprintw(2, 46, "*Empty list*");
         return ;
     }
 
@@ -413,13 +413,14 @@ void remove_menu(Products *products_list){
     mvprintw(1, 1, "Code: ");
     scanw(" %d", &code);
 
-    if (search_list(code, temp, products_list)) {
-
-        remove_item(code, products_list);
+    // if (search_list(code, temp, products_list)) {
+    if(remove_item(code, products_list))
         mvprintw(5, 1, "*Removed product*");
-    } else {
+    else
         mvprintw(5, 1, "*Code not found*");
-    }
+    // } else {
+    //     mvprintw(5, 1, "*Code not found*");
+    // }
 
     __fpurge(stdin);
     getch();
