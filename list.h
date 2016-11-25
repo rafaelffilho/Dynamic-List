@@ -145,15 +145,15 @@ int search_list (int search_code, Products *s, Products *products_list) {
 }
 
 void remove_item (int x, Products *products_list) {
-    Products *trash, *trashProx;
+    Products *trash, *trashNext;
     trash = products_list;
-    trashProx = products_list->next_position;
-    while (trashProx != NULL && trashProx->code != x) {
-          trash = trashProx;
-          trashProx = trashProx->next_position;
+    trashNext = products_list->next_position;
+    while (trashNext != NULL && trashNext->code != x) {
+          trash = trashNext;
+          trashNext = trashNext->next_position;
     }
-    if (trashProx != NULL) {
-          trash->next_position = trashProx->next_position;
-          free(trashProx);
+    if (trashNext != NULL) {
+          trash->next_position = trashNext->next_position;
+          free(trashNext);
     }
 }

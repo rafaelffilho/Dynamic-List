@@ -1,5 +1,4 @@
 #ifdef _WIN32
-#define THISs
 
 #include <windows.h>
 #include "struct.h"
@@ -305,13 +304,13 @@ int main_menu(Products *products_list){
 
         if(empty_list(products_list)){
 
-          gotoxy(55, 11);puts("Press enter to exit");
+          gotoxy(55, 11);
 
           cursor(11, 11, i, 3);
 
         }else{
 
-          gotoxy(55, i-2);puts("Press enter to exit");
+          gotoxy(55, i-2);
 
           cursor(11, 11, i-3, 3);
 
@@ -343,7 +342,7 @@ int main_menu(Products *products_list){
 void draw_list(Products *products_list) {
 
     if (empty_list(products_list)) {
-        printf("\n\nA lista esta atualmente vazia.\n\n");
+        printf("\n\nEmpty list.\n\n");
         return ;
     }
 
@@ -352,11 +351,11 @@ void draw_list(Products *products_list) {
     for (int i = 0; i < LINES - 2; i += 3) {
         mvprintw(i, COLS - 46, "Product code: %d", temp->code);
         mvprintw(i + 1, COLS - 46, "Product price: %.2f", temp->price);
-        if (temp->next_position == NULL)
-            break;
         temp = temp->next_position;
+        if (temp == NULL)
+            break;
     }
-    if (temp->next_position != NULL) {
+    if (temp != NULL) {
         for (int i = 0; i < LINES - 2; i += 3) {
             mvprintw(i, COLS - 22, "Product code: %d", temp->code);
             mvprintw(i + 1, COLS - 22, "Product price: %.2f", temp->price);
@@ -383,21 +382,21 @@ void add_menu(Products *products_list){
 
     draw_list(products_list);
 
-    mvprintw(1, 1, "Codigo a adicionar: ");
+    mvprintw(1, 1, "Code: ");
     __fpurge(stdin);
     scanw(" %d", &code);
-    mvprintw(3, 1, "Preco do produto: ");
+    mvprintw(3, 1, "Price: ");
     __fpurge(stdin);
     scanw(" %f", &price);
 
     if(insert_item (&code, &price, products_list) == NULL){
-        mvprintw(5, 1, "*Codigo ja existente*");
+        mvprintw(5, 1, "*Code already in use*");
         __fpurge(stdin);
         getch();
         return;
     }
 
-    mvprintw(5, 1, "*Produto adicionado*");
+    mvprintw(5, 1, "*Added product*");
 
     __fpurge(stdin);
     getch();
@@ -409,11 +408,18 @@ void remove_menu(Products *products_list){
 
     draw_list(products_list);
 
-    mvprintw(1, 1, "Codigo a remover: ");
-    scanw(" %d", &code);
-    remove_item(code, products_list);
+    Products *temp;
 
-    mvprintw(5, 1, "*Produto removido*");
+    mvprintw(1, 1, "Code: ");
+    scanw(" %d", &code);
+
+    if (search_list(code, temp, products_list)) {
+
+        remove_item(code, products_list);
+        mvprintw(5, 1, "*Removed product*");
+    } else {
+        mvprintw(5, 1, "*Code not found*");
+    }
 
     __fpurge(stdin);
     getch();
@@ -425,7 +431,7 @@ void search_menu(Products *products_list){
 
     draw_list(products_list);
 
-    mvprintw(1, 1, "Codigo a procurar: ");
+    mvprintw(1, 1, "Code: ");
     __fpurge(stdin);
     //move(row,col);
     scanw(" %d", &code);
@@ -435,10 +441,10 @@ void search_menu(Products *products_list){
     //refresh();
     if(search_list(code, s, products_list)){
         //printf("\nCódigo: %d\nPreço: %.2f\n\n", s->code, s->price);
-        mvprintw(4, 1, "Codigo: %d", s->code);
-        mvprintw(5, 1, "Preco: %.2f", s->price);
+        mvprintw(4, 1, "Code: %d", s->code);
+        mvprintw(5, 1, "Price: %.2f", s->price);
     }else{
-        mvprintw(4, 1, "*Codigo nao encontrado*");
+        mvprintw(4, 1, "*Code not found*");
     }
     free(s);
     __fpurge(stdin);
@@ -455,10 +461,10 @@ int main_menu(Products *products_list){
     int curr = 0;
 
     char *options[] = {
-        "Adicionar produto",
-        "Remover produto",
-        "Procurar produto",
-        "Sair",
+        "Add product",
+        "Remove product",
+        "Search product",
+        "Exit",
     };
 
     initscr();
