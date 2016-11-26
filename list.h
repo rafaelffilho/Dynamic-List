@@ -52,6 +52,7 @@ int insert_item (int *code, float *price, Products *products_list) {
         Products *last_product = products_list->next_position;
         products_list->next_position = new_product;
         new_product->next_position = last_product;
+        return 1;
     } else {
         return NULL;
     }
@@ -147,8 +148,7 @@ int search_list (int search_code, Products *s, Products *products_list) {
 int remove_item (int x, Products *products_list) {
     Products *trash;
     Products *trashNext;
-    Products *tmp = malloc(sizeof(Products));
-    if (search_list(x, tmp, products_list)) {
+    if (!check_list(x, products_list)) {
         trash = products_list;
         trashNext = products_list->next_position;
         while (trashNext != NULL && trashNext->code != x) {
