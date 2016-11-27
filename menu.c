@@ -1,3 +1,18 @@
+/*
+    * Lista Dinamicamente Encadeada
+
+    * Arquivo: menu.c
+    * Descrição: Funções de estruturação do menu
+
+    * Codigo por:
+
+    * Matheus Nava (Windows)
+    * Rafael F. Filho (Unix)
+
+    * Algoritmos e Programação II, Rafael Ballotin
+    * Engenharia de Computação, 2016
+*/
+
 #ifdef _WIN32
 
 #include <windows.h>
@@ -177,8 +192,8 @@ int main_menu(Products *products_list){
 #else
 
 #include <ncurses.h>
+#include <stdlib.h>
 #include <menu.h>
-//#include "list.h"
 #include "struct.h"
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
@@ -253,19 +268,13 @@ void remove_menu(Products *products_list){
 
     draw_list(products_list);
 
-    Products *temp;
-
     mvprintw(1, 1, "Code: ");
     scanw(" %d", &code);
 
-    // if (search_list(code, temp, products_list)) {
     if(remove_item(code, products_list))
         mvprintw(5, 1, "*Removed product*");
     else
         mvprintw(5, 1, "*Code not found*");
-    // } else {
-    //     mvprintw(5, 1, "*Code not found*");
-    // }
 
     __fpurge(stdin);
     getch();
@@ -279,14 +288,9 @@ void search_menu(Products *products_list){
 
     mvprintw(1, 1, "Code: ");
     __fpurge(stdin);
-    //move(row,col);
     scanw(" %d", &code);
-    //getstr(str);
-    //x = atoi(str);
     Products *s = malloc(sizeof(Products));
-    //refresh();
     if(search_list(code, s, products_list)){
-        //printf("\nCódigo: %d\nPreço: %.2f\n\n", s->code, s->price);
         mvprintw(4, 1, "Code: %d", s->code);
         mvprintw(5, 1, "Price: %.2f", s->price);
     }else{
@@ -315,7 +319,6 @@ int main_menu(Products *products_list){
 
     initscr();
     cbreak();
-    //noecho();
     keypad(stdscr, TRUE);
 
     n_options = ARRAY_SIZE(options);

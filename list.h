@@ -1,8 +1,8 @@
 /*
     * Lista Dinamicamente Encadeada
 
-    * Arquivo: main_functions.h
-    * Descri��o: Biblioteca com as fun��es do programa
+    * Arquivo: list.h
+    * Descrição: Biblioteca com as funções do programa
 
     * Codigo por:
 
@@ -10,8 +10,8 @@
     * Matheus Nava
     * Rafael F. Filho
 
-    * Algoritmos e Programa��o II, Rafael Ballotin
-    * Engenharia de Computa��o, 2016
+    * Algoritmos e Programação II, Rafael Ballotin
+    * Engenharia de Computação, 2016
 */
 
 #include "struct.h"
@@ -74,18 +74,13 @@ void clean_space (Products *products_list) {
 }
 
 void save_itens (Products *products_list) {
-    //FILE *fp = fopen("database.txt", "r+");
+
     FILE *fp = fopen("products.dat", "w+b");
-
-    //if(fp == NULL)
-      //  fp = fopen("products.dat", "w+b");
-
-    //rewind(fp);
 
     Products *tmp = products_list->next_position;
 
     while (tmp != NULL) {
-        //fprintf(fp, "%d %.2f\n", tmp->code, tmp->price);
+
         fwrite(tmp, sizeof(Products), 1, fp);
         tmp = tmp->next_position;
     }
